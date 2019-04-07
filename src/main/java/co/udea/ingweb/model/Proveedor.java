@@ -5,26 +5,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "clientes")
-public class Cliente {
+@Table(name = "proveedores")
+public class Proveedor {
 
 	@Id
 	private String id;
 	private String nombres;
 	private String apellidos;
-	private double saldo;
+	private String tel;
 	private String state;
 
-	public Cliente() {
+	public Proveedor() {
 		super();
 	}
 
-	public Cliente(String id, String nombres, String apellidos, double saldo, String state) {
+	public Proveedor(String id, String nombres, String apellidos, String telefono, String state) {
 		super();
 		this.id = id;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.saldo = saldo;
+		this.tel = telefono;
 		this.state = state;
 	}
 
@@ -71,17 +71,17 @@ public class Cliente {
 	}
 
 	/**
-	 * @return the saldo
+	 * @return the tel
 	 */
-	public double getSaldo() {
-		return saldo;
+	public String getTel() {
+		return tel;
 	}
 
 	/**
-	 * @param saldo the saldo to set
+	 * @param tel the tel to set
 	 */
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 	/**

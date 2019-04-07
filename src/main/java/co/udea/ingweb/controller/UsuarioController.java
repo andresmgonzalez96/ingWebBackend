@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.udea.ingweb.exception.DataNotFoundException;
-import co.udea.ingweb.model.Producto;
 import co.udea.ingweb.model.Usuario;
 import co.udea.ingweb.service.UsuarioService;
 import co.udea.ingweb.util.Messages;
@@ -96,6 +95,17 @@ public class UsuarioController {
 		}
 		return usuarioService.addUsuario(usuario);		
 		
+	}
+	
+	@GetMapping(value = "login/{id}/{pass}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Consultar usuario por id", response = Page.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario encontrado", response = Usuario.class),
+            @ApiResponse(code = 400, message = "La petición es invalida"),
+            @ApiResponse(code = 404, message = "Recurso no encontrado"),
+            @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
+	public ResponseEntity<Usuario> login( @PathVariable("id") String id, @PathVariable("pass") String pass){
+		return ResponseEntity.ok(usuarioService.doLogin(id, pass));
 	}
 
 }

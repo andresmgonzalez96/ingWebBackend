@@ -18,82 +18,81 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.udea.ingweb.exception.DataNotFoundException;
-import co.udea.ingweb.model.Producto;
-import co.udea.ingweb.service.ProductoService;
+import co.udea.ingweb.model.Incidentes;
+import co.udea.ingweb.service.IncidentesService;
 import co.udea.ingweb.util.Messages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/producto")
-public class ProductoController {
+@RequestMapping("/incidente")
+public class IncidenteController {
 	
-	private static Logger log = LoggerFactory.getLogger(ProductoController.class);
+	private static Logger log = LoggerFactory.getLogger(IncidenteController.class);
 	
-	private ProductoService productoService;
+	private IncidentesService incidenteService;
 	
 	@Autowired
     private Messages messages;	
 	
-	public ProductoController(ProductoService proyectoService) {
-		this.productoService = proyectoService;
+	public IncidenteController(IncidentesService incidente) {
+		this.incidenteService = incidente;
 	}
 	
 	@GetMapping(value = "consultar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Consultar producto por id", response = Page.class)
+    @ApiOperation(value = "Consultar Incidente por id", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Producto encontrado", response = Producto.class),
+            @ApiResponse(code = 200, message = "Incidente encontrado", response = Incidentes.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public ResponseEntity<Producto> getProyecto( @PathVariable("id") String id){
-		 log.debug("REST request getProducto id : {}", id);
-		return ResponseEntity.ok(productoService.getProducto(id));
+	public ResponseEntity<Incidentes> getIncidente( @PathVariable("id") int id){
+		 log.debug("REST request getIncidente id : {}", id);
+		return ResponseEntity.ok(incidenteService.getIncidente(id));
 	}
 	
 	@GetMapping(value = "listar", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Buscar todos", response = Page.class)
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Los productos fueron buscados", response = Page.class),
+            @ApiResponse(code = 200, message = "Los Incidente fueron buscados", response = Page.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public ResponseEntity<List<Producto>> getHeros(){
-		log.debug("REST request listar todos los productos");
-		return ResponseEntity.ok(productoService.getProductos());		
+	public ResponseEntity<List<Incidentes>> getEncabezadosPedidos(){
+		log.debug("REST request listar todos los Incidentes");
+		return ResponseEntity.ok(incidenteService.getIncidentes());		
 	}
 	
 	@DeleteMapping(value = "borrar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Borrar producto por id", response = Page.class)
+    @ApiOperation(value = "Borrar Incidente por id", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Producto Borrado", response = Producto.class),
+            @ApiResponse(code = 200, message = "Incidente Borrado", response = Incidentes.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public void deleteProyectoId( @PathVariable("id") String id){
-		 log.debug("REST request deleteProducto id : {}", id);
-		 productoService.deleteProductoId(id);
+	public void deleteIncidenteId( @PathVariable("id") int id){
+		 incidenteService.deleteIncidenteId(id);
 	}
 	
-	@PutMapping(value = "actualizar/", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Actualizar Producto", response = Page.class)
+	@PutMapping(value = "actualizar", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Actualizar Incidente", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Producto actualizado", response = Producto.class),
+            @ApiResponse(code = 200, message = "Incidente actualizado", response = Incidentes.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public void updateHero(@RequestBody Producto producto ){
-		 log.debug("REST request updateProyecto id : {}", producto.getCodigo());
-		productoService.updateProducto(producto);
+	public void updateIncidente(@RequestBody Incidentes incidente ){
+		 log.debug("REST request updateIncidente id : {}", incidente.getId());
+		incidenteService.updateIncidente(incidente);
 	}
 	
 	@RequestMapping(value="crear", method=RequestMethod.POST)
-	public Producto addHero(@RequestBody Producto producto) throws DataNotFoundException{
+	public Incidentes addIncidente(@RequestBody Incidentes incidente) throws DataNotFoundException{
 		log.debug("Entro a crear");
-		if(producto == null){
-			throw new DataNotFoundException(messages.get("exception.data_not_found.proyecto"));
+		if(incidente == null){
+			throw new DataNotFoundException(messages.get("exception.data_not_found.pedido"));
 		}
-		return productoService.addProducto(producto);		
+		return incidenteService.addIncidente(incidente);		
 		
 	}
 

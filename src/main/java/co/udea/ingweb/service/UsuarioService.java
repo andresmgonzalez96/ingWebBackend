@@ -16,4 +16,6 @@ public interface UsuarioService {
 
 	public void deleteUsuarioId(String id);
 
+	public Usuario doLogin(String id, String pass);
+
 }

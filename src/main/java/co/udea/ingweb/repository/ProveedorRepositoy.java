@@ -5,11 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import co.udea.ingweb.model.Proveedor;
-import co.udea.ingweb.model.Usuario;
 
-public interface UsuarioRepositoy extends JpaRepository<Usuario, String>{
+public interface ProveedorRepositoy extends JpaRepository<Proveedor, String>{
 
-	public Optional<Usuario> findById(String id); 
+	public Optional<Proveedor> findById(String id); 
 	
 	
 }

@@ -18,83 +18,82 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.udea.ingweb.exception.DataNotFoundException;
-import co.udea.ingweb.model.DetallePedido;
-import co.udea.ingweb.model.EncabezadoPedido;
-import co.udea.ingweb.service.DetallePedidoService;
+import co.udea.ingweb.model.Proveedor;
+import co.udea.ingweb.service.ProveedorService;
 import co.udea.ingweb.util.Messages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/detallepedido")
-public class DetallePedidoController {
+@RequestMapping("/proveedor")
+public class ProveedorController {
 	
-	private static Logger log = LoggerFactory.getLogger(DetallePedidoController.class);
+	private static Logger log = LoggerFactory.getLogger(ProveedorController.class);
 	
-	private DetallePedidoService detallePedidoService;
+	private ProveedorService proveedorService;
 	
 	@Autowired
     private Messages messages;	
 	
-	public DetallePedidoController(DetallePedidoService detallePedido) {
-		this.detallePedidoService = detallePedido;
+	public ProveedorController(ProveedorService proveedorService) {
+		this.proveedorService = proveedorService;
 	}
 	
 	@GetMapping(value = "consultar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Consultar DetallePedido por id", response = Page.class)
+    @ApiOperation(value = "Consultar Proveedor por id", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "DetallePedido encontrado", response = DetallePedido.class),
+            @ApiResponse(code = 200, message = "Proveedor encontrado", response = Proveedor.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public ResponseEntity<DetallePedido> getDetallePedido( @PathVariable("id") int id){
-		 log.debug("REST request getDetallePedido id : {}", id);
-		return ResponseEntity.ok(detallePedidoService.getDetallePedido(id));
+	public ResponseEntity<Proveedor> getProveedor( @PathVariable("id") String id){
+		 log.debug("REST request getProveedor id : {}", id);
+		return ResponseEntity.ok(proveedorService.getProveedor(id));
 	}
 	
 	@GetMapping(value = "listar", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Buscar todos", response = Page.class)
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Los DetallePedido fueron buscados", response = Page.class),
+            @ApiResponse(code = 200, message = "Los Proveedors fueron buscados", response = Page.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public ResponseEntity<List<DetallePedido>> getDetallesPedido(){
-		log.debug("REST request listar todos los Detalle Pedidos");
-		return ResponseEntity.ok(detallePedidoService.getDetallesPedido());		
+	public ResponseEntity<List<Proveedor>> getProveedores(){
+		log.debug("REST request listar todos los Proveedors");
+		return ResponseEntity.ok(proveedorService.getProveedores());		
 	}
 	
 	@DeleteMapping(value = "borrar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Borrar DetallePedido por id", response = Page.class)
+    @ApiOperation(value = "Borrar Proveedor por id", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "DetallePedido Borrado", response = DetallePedido.class),
+            @ApiResponse(code = 200, message = "Proveedor Borrado", response = Proveedor.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public void deleteDetallePedidoId( @PathVariable("id") int id){
-		 log.debug("REST request deleteDetalle id : {}", id);
-		 detallePedidoService.deleteDetallePedidoId(id);
+	public void deleteProveedorId( @PathVariable("id") String id){
+		 log.debug("REST request deleteProveedor id : {}", id);
+		 proveedorService.deleteProveedorId(id);
 	}
 	
 	@PutMapping(value = "actualizar/", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Actualizar DetallePedido", response = Page.class)
+	@ApiOperation(value = "Actualizar Proveedor", response = Page.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "DetallePedido actualizado", response = DetallePedido.class),
+            @ApiResponse(code = 200, message = "Proveedor actualizado", response = Proveedor.class),
             @ApiResponse(code = 400, message = "La petición es invalida"),
             @ApiResponse(code = 404, message = "Recurso no encontrado"),
             @ApiResponse(code = 500, message = "Error interno al procesar la respuesta")})
-	public void updateDetallePedido(@RequestBody DetallePedido detallePedido ){
-		 log.debug("REST request updateDetallePedido id : {}", detallePedido.getIdDetalle());
-		detallePedidoService.updateDetallePedido(detallePedido);
+	public void updateProveedor(@RequestBody Proveedor Proveedor ){
+		 log.debug("REST request updateProveedor id : {}", Proveedor.getId());
+		proveedorService.updateProveedor(Proveedor);
 	}
 	
 	@RequestMapping(value="crear", method=RequestMethod.POST)
-	public DetallePedido addDetallePedido(@RequestBody DetallePedido detallePedido) throws DataNotFoundException{
+	public Proveedor addProveedor(@RequestBody Proveedor Proveedor) throws DataNotFoundException{
 		log.debug("Entro a crear");
-		if(detallePedido == null){
-			throw new DataNotFoundException(messages.get("exception.data_not_found.detallepedido"));
+		if(Proveedor == null){
+			throw new DataNotFoundException(messages.get("exception.data_not_found.Proveedor"));
 		}
-		return detallePedidoService.addDetallePedido(detallePedido);		
+		return proveedorService.addProveedor(Proveedor);		
 		
 	}
 

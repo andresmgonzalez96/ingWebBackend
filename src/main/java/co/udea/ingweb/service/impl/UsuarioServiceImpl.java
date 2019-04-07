@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import co.udea.ingweb.exception.DataNotFoundException;
-import co.udea.ingweb.model.Cliente;
+import co.udea.ingweb.model.Proveedor;
 import co.udea.ingweb.model.Usuario;
-import co.udea.ingweb.repository.ClienteRepositoy;
+import co.udea.ingweb.repository.ProveedorRepositoy;
 import co.udea.ingweb.repository.UsuarioRepositoy;
-import co.udea.ingweb.service.ClienteService;
+import co.udea.ingweb.service.ProveedorService;
 import co.udea.ingweb.service.UsuarioService;
 import co.udea.ingweb.util.Messages;
 
@@ -47,6 +47,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		log.debug("Fin getUsuario: usuario = {}", usuario.get());
 		return usuario.get();
+	}
+	
+	@Override
+	public Usuario doLogin(String user, String pass) {
+		List<Usuario> usuario = usuarioRepository.findAll();
+		for (Usuario usuario2 : usuario) {
+			if (user.equals(usuario2.getUser())) {
+				if (pass.equals(usuario2.getPassword())) {
+					return usuario2;
+				}
+			}
+			
+		} 
+		throw new DataNotFoundException(messages.get("Las credenciales son invalidas"));
 	}
 	
 	
